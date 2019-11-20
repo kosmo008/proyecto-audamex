@@ -9,7 +9,7 @@ switch ($_GET["op"]){
 	
 case 'verificar':
 		$logina=$_POST['logina'];
-	    $clavea=$_POST['clavea'];
+	    $clavea=MD5($_POST['clavea']);
         
         $tempL = trim($logina);
         $tempL = stripcslashes($tempL);
