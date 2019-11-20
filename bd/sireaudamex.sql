@@ -1037,13 +1037,13 @@ CREATE TABLE `usuario` (
   `idusuario` int(11) NOT NULL,
   `nombre_user` varchar(45) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `usuario` varchar(45) COLLATE utf8_spanish2_ci NOT NULL,
-  `password` varchar(10) COLLATE utf8_spanish2_ci DEFAULT NULL,
+  `password` varchar(50) COLLATE utf8_spanish2_ci DEFAULT NULL,
   `tipo` int(11) NOT NULL,
   `estado` tinyint(4) NOT NULL DEFAULT '1',
   PRIMARY KEY (`idusuario`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_spanish2_ci;
 
---
+--O APLICAR ALTER TABLE sireaudamex.usuario CHANGE password password VARCHAR(50);
 -- Volcar la base de datos para la tabla `usuario`
 --
 
