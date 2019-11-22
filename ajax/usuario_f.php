@@ -30,8 +30,11 @@ case 'verificar':
 		//$fetchObra=$rsptaObra->fetch_object();
         
         
-		$resultadoConsulta=null;
+
 		//if (isset($fetch) || isset($fetchObra))
+        
+        $resultadoConsulta=null;
+        
         if (isset($fetch))
 	    {
 	        //Declaramos las variables de sesión
@@ -41,8 +44,12 @@ case 'verificar':
 	        $_SESSION['tipo']=$fetch->tipo;
 	        $_SESSION['nombre_user']=$fetch->nombre_user;
 	        //$_SESSION['obra_idobra']=$fetchObra->obra_idobra;
-	        $resultadoConsulta='1';
-	    }
+	    $resultadoConsulta='1';    
+	    }else{
+          $resultadoConsulta='0';    
+        }
+        
+        
 	    echo $resultadoConsulta;
 	break;
         
