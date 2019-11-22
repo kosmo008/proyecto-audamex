@@ -30,7 +30,7 @@ case 'verificar':
 		//$fetchObra=$rsptaObra->fetch_object();
         
         
-
+		$resultadoConsulta=null;
 		//if (isset($fetch) || isset($fetchObra))
         if (isset($fetch))
 	    {
@@ -41,9 +41,9 @@ case 'verificar':
 	        $_SESSION['tipo']=$fetch->tipo;
 	        $_SESSION['nombre_user']=$fetch->nombre_user;
 	        //$_SESSION['obra_idobra']=$fetchObra->obra_idobra;
-	        
+	        $resultadoConsulta='1';
 	    }
-	    echo json_encode($query);
+	    echo $resultadoConsulta;
 	break;
         
         
