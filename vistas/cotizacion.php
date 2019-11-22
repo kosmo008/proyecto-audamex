@@ -5,7 +5,7 @@ ob_start();
 
 if(!isset($_SESSION["usuario"])){
         
-    header("Location: login.html");
+    header("Location: login.php");
     
 }
 else{
