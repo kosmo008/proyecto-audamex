@@ -11,9 +11,9 @@ Class Registro
 	}
 
 	//Implementamos un método para insertar registros
-	public function insertar($razonSocial,$nombreContacto,$puestoContacto,$correo,$telefono1,$telefono2,$tipoProducto,$alcance,$procesos,$noPersonal,$multiSitios,$fechaProbable,$requerimientoAdd,$fechaImplementado,$integral,$nivelIntegrado,$observaciones,$normas,$calle,$noInterior,$noExterior,$colonia,$alcaldia,$estado,$pais,$codigoPostal,$calle2,$noInterior2,$noExterior2,$colonia2,$alcaldia2,$estado2,$pais2,$codigoPostal2,$alias,$estadoAlias,$noPersonalAlias)
+	public function insertar($razonSocial,$nombreContacto,$puestoContacto,$correo,$telefono1,$telefono2,$tipoProducto,$alcance,$procesos,$noPersonal,$multiSitios,$fechaProbable,$requerimientoAdd,$fechaImplementado,$integral,$nivelIntegrado,$observaciones,$normas,$calle,$noInterior,$noExterior,$colonia,$alcaldia,$estado,$pais,$codigoPostal,$calle2,$noInterior2,$noExterior2,$colonia2,$alcaldia2,$estado2,$pais2,$codigoPostal2,$alias,$estadoAlias,$noPersonalAlias,$RFC)
 	{
-		$sql="INSERT INTO cliente (razonSocial, nombreContacto, puestoContacto, correo, telefono1, telefono2, tipoProducto, alcance, procesos, noPersonal, multiSitio, fechaProbable, requerimientoAdd, fechaImplementado, integral, nivelIntegrado, observaciones, condicion) VALUES ('$razonSocial','$nombreContacto','$puestoContacto','$correo','$telefono1','$telefono2','$tipoProducto','$alcance','$procesos','$noPersonal','$multiSitios','$fechaProbable','$requerimientoAdd','$fechaImplementado','1','$nivelIntegrado','$observaciones','1')";
+		$sql="INSERT INTO cliente (razonSocial, nombreContacto, puestoContacto, correo, telefono1, telefono2, tipoProducto, alcance, procesos, noPersonal, multiSitio, fechaProbable, requerimientoAdd, fechaImplementado, integral, nivelIntegrado, observaciones, condicion,RFC) VALUES ('$razonSocial','$nombreContacto','$puestoContacto','$correo','$telefono1','$telefono2','$tipoProducto','$alcance','$procesos','$noPersonal','$multiSitios','$fechaProbable','$requerimientoAdd','$fechaImplementado','1','$nivelIntegrado','$observaciones','1','$RFC')";
 		//return ejecutarConsulta($sql);
         
         $usuarioNew=ejecutarConsulta_retornarID($sql);
@@ -73,9 +73,9 @@ Class Registro
     
 
 	//Implementamos un método para editar registros
-	public function editar($idCliente,$nombreOrganizacion,$correo,$rfc,$tipoProducto)
+	public function editar($idCliente,$nombreOrganizacion,$correo,$rfc,$tipoProducto,$RFC)
 	{
-		$sql="UPDATE cliente SET nombreOrganizacion='$nombreOrganizacion',correo='$correo',tipoProducto='$tipoProducto',rfc='$rfc' WHERE idcliente='$idCliente'";
+		$sql="UPDATE cliente SET nombreOrganizacion='$nombreOrganizacion',correo='$correo',tipoProducto='$tipoProducto',rfc='$RFC' WHERE idcliente='$idCliente'";
 		return ejecutarConsulta($sql);
 	}
     
@@ -98,7 +98,7 @@ Class Registro
 	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idCliente)
 	{
-		$sql="SELECT c.idCliente,c.razonSocial,c.nombreContacto,c.puestoContacto,c.correo,c.telefono1,c.telefono2,c.tipoProducto,c.alcance,c.procesos,c.noPersonal,c.multiSitio,c.fechaProbable,c.requerimientoAdd,c.fechaImplementado,c.integral,c.nivelIntegrado,c.observaciones,c.condicion,d.idDireccion,d.calle,d.noInterior,d.noExterior,d.colonia,d.alcaldia,d.estado,d.pais,d.cp FROM cliente c,direccion d WHERE c.idCliente = d.cliente_idCliente AND c.idCliente='$idCliente'";
+		$sql="SELECT c.idCliente,c.razonSocial,c.nombreContacto,c.puestoContacto,c.correo,c.telefono1,c.telefono2,c.tipoProducto,c.alcance,c.procesos,c.noPersonal,c.multiSitio,c.fechaProbable,c.requerimientoAdd,c.fechaImplementado,c.integral,c.nivelIntegrado,c.observaciones,c.condicion,d.idDireccion,d.calle,d.noInterior,d.noExterior,d.colonia,d.alcaldia,d.estado,d.pais,d.cp,c.RFC FROM cliente c,direccion d WHERE c.idCliente = d.cliente_idCliente AND c.idCliente='$idCliente'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
@@ -113,18 +113,15 @@ Class Registro
                 correo, 
                 telefono1, 
                 fechaProbable,
-                alcance,                
+                alcance,
+				RFC,                
                 condicion
               FROM 
                 cliente ";
 		return ejecutarConsulta($sql);		
 	}
     
-    public function listarDetalle($idCliente)
-	{
-		$sql="SELECT di.idingreso,di.idarticulo,a.nombre,di.cantidad,di.precio_compra,di.precio_venta FROM detalle_ingreso di inner join articulo a on di.idarticulo=a.idarticulo where di.idingreso='$idingreso'";
-		return ejecutarConsulta($sql);
-	}
+   
 
 }
 

@@ -15,6 +15,7 @@ $alcaldia=isset($_POST["alcaldia"])? limpiarCadena($_POST["alcaldia"]):"";
 $estado=isset($_POST["estado"])? limpiarCadena($_POST["estado"]):"";
 $pais=isset($_POST["pais"])? limpiarCadena($_POST["pais"]):"";
 $codigoPostal=isset($_POST["codigoPostal"])? limpiarCadena($_POST["codigoPostal"]):"";
+$RFC=isset($_POST["RFC"])? limpiarCadena($_POST["RFC"]):"";
 
 
 
@@ -77,7 +78,7 @@ switch ($_GET["op"]){
 		{
 			
 			
-                 $respuesta=$registro->insertar($razonSocial,$nombreContacto,$puestoContacto,$correo,$telefono1,$telefono2,$tipoProducto,$alcance,$procesos,$noPersonal,$multiSitios,$fechaProbable,$requerimientoAdd,$fechaImplementado,$integral,$nivelIntegrado,$observaciones,$_POST['normas'],$calle,$noInterior,$noExterior,$colonia,$alcaldia,$estado,$pais,$codigoPostal,$calle2,$noInterior2,$noExterior2,$colonia2,$alcaldia2,$estado2,$pais2,$codigoPostal2,$_POST['alias'],$_POST['estadoAlias'],$_POST['noPersonalAlias']);
+                 $respuesta=$registro->insertar($razonSocial,$nombreContacto,$puestoContacto,$correo,$telefono1,$telefono2,$tipoProducto,$alcance,$procesos,$noPersonal,$multiSitios,$fechaProbable,$requerimientoAdd,$fechaImplementado,$integral,$nivelIntegrado,$observaciones,$_POST['normas'],$calle,$noInterior,$noExterior,$colonia,$alcaldia,$estado,$pais,$codigoPostal,$calle2,$noInterior2,$noExterior2,$colonia2,$alcaldia2,$estado2,$pais2,$codigoPostal2,$_POST['alias'],$_POST['estadoAlias'],$_POST['noPersonalAlias'],$RFC);
                 
             //evalua 1 o 0
             echo $respuesta ? "Te has registrado satisfactoriamente" : "Tu registro no se pudo realizar";
@@ -88,7 +89,7 @@ switch ($_GET["op"]){
 		}
 		else 
 		{
-			$respuesta=$registro->editar($idCliente,$nombreOrganizacion,$correo,$rfc,$tipoProducto);
+			$respuesta=$registro->editar($idCliente,$nombreOrganizacion,$correo,$rfc,$tipoProducto,$RFC);
             echo $respuesta ? "El registro ha sido actualizado" : "El registro no ha sido actualizado";
 		}
 		
