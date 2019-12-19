@@ -299,27 +299,6 @@ CREATE TABLE IF NOT EXISTS `Audamex`.`servicio` (
 ENGINE = InnoDB;
 
 
--- -----------------------------------------------------
--- Table `Audamex`.`certificacionVsNorma`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Audamex`.`certificacionVsNorma` (
-  `idCertificacionVsNorma` INT NOT NULL AUTO_INCREMENT,
-  `certificacion_idCertificacion` INT NOT NULL,
-  `norma_idNorma` INT NOT NULL,
-  PRIMARY KEY (`idCertificacionVsNorma`),
-  INDEX `fk_certificacionVsNorma_certificacion1_idx` (`certificacion_idCertificacion` ASC),
-  INDEX `fk_certificacionVsNorma_norma1_idx` (`norma_idNorma` ASC),
-  CONSTRAINT `fk_certificacionVsNorma_certificacion1`
-    FOREIGN KEY (`certificacion_idCertificacion`)
-    REFERENCES `Audamex`.`certificacion` (`idCertificacion`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE,
-  CONSTRAINT `fk_certificacionVsNorma_norma1`
-    FOREIGN KEY (`norma_idNorma`)
-    REFERENCES `Audamex`.`norma` (`idNorma`)
-    ON DELETE CASCADE
-    ON UPDATE CASCADE)
-ENGINE = InnoDB;
 
 
 -- -----------------------------------------------------
@@ -329,12 +308,19 @@ CREATE TABLE IF NOT EXISTS `Audamex`.`solicitudVsServicios` (
   `idSolicitudVsServicios` INT NOT NULL AUTO_INCREMENT,
   `solicitud_idSolicitud` INT NOT NULL,
   `servicio_idServicio` INT NOT NULL,
+  `norma_idNorma` INT NOT NULL,  
   PRIMARY KEY (`idSolicitudVsServicios`),
   INDEX `fk_solicitudVsServicios_solicitud1_idx` (`solicitud_idSolicitud` ASC),
-  INDEX `fk_solicitudVsServicios_servicio1_idx` (`servicio_idservicio` ASC),
+  INDEX `fk_solicitudVsServicios_servicio1_idx` (`servicio_idServicio` ASC),  
+  INDEX `fk_solicitudVsServicios_norma1_idx` (`norma_idNorma` ASC),
   CONSTRAINT `fk_solicitudVsServicios_solicitud1`
     FOREIGN KEY (`solicitud_idSolicitud`)
     REFERENCES `Audamex`.`solicitud` (`idSolicitud`)
+    ON DELETE CASCADE
+    ON UPDATE CASCADE,
+	CONSTRAINT `fk_solicitudVsServicios_norma1`
+    FOREIGN KEY (`norma_idNorma`)
+    REFERENCES `Audamex`.`norma` (`idNorma`)
     ON DELETE CASCADE
     ON UPDATE CASCADE,
   CONSTRAINT `fk_solicitudVsServicios_servicio1`
