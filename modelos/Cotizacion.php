@@ -5,6 +5,7 @@ session_start();
 
 require "../config/Conexion.php";
 
+
 Class Cotizacion
 { 
 	//Implementamos nuestro constructor
@@ -72,102 +73,223 @@ Class Cotizacion
         
 	}
     
-    
-
 	//Implementamos un método para editar registros
-	public function editarCostoFinal($costoCotizacion,$idCliente)
+	public function editarCostoFinal($costoFinal,$costoNormal,$costoAumento,$costoDescuento,$idCliente,$segimiento) 
 	{
-		$sql="UPDATE cliente SET costoCotizacion='$costoCotizacion' WHERE idCliente='$idCliente'";
+        $direccion ="";
+        $normas="";
+        $descripcionNormas="";
         
-        $sqlDatos="SELECT C.puestoContacto, C.nombreContacto, C.razonSocial, C.costoCotizacion,N.certificado, N.nmx, N.descripcion  FROM cliente C, normasSolicitadas NS, normas N where NS.idCliente=C.idCliente AND NS.idNorma=N.idNormas AND  C.idCliente ='$idCliente' ";
+        $iva = 0.16 * $costoFinal;
+        $total = $iva + $costoFinal;
         
-        $temp=ejecutarConsulta($sqlDatos);
+       
+        if($segimiento == 0){ //0 = semestral 1= anual
+            
+            $costoSegimiento = ($costoFinal - ($costoFinal*0.05))/2;
+            
+        }else{
+            $costoSegimiento = $costoFinal - ($costoFinal*0.10);
+        }
+        
+        
+        
+		$sql="UPDATE cotizacion SET costoFinal='$costoFinal', costoNormal='$costoNormal', costoDesc='$costoDescuento',costoAumento='$costoAumento' , condicion=1, iva='$iva', total = '$total', tipoSegimiento = '$segimiento', costoSeg='$costoSegimiento'  WHERE cliente_idCliente='$idCliente'";
+        
+        $sqlDatosContacto="SELECT Co.puestoContacto, Co.nombreContacto, C.razonSocial, C.noTotalEmpleados FROM cotizacion Co, cliente C WHERE 1 =1 AND C.idCliente = Co.cliente_idCliente AND C.idCliente ='$idCliente'";
+        
+        $temp=ejecutarConsulta($sqlDatosContacto);
+        
         
         $fetch=$temp->fetch_object();
 		
-        if (isset($fetch))
+        if (isset($fetch)) 
 	    {
 	        //Declaramos las variables de sesión
 	        $_SESSION['puestoContacto']=$fetch->puestoContacto;
 	        $_SESSION['nombreContacto']=$fetch->nombreContacto;
 	        $_SESSION['razonSocial']=$fetch->razonSocial;
-	        //$_SESSION['costoCotizacion']=$fetch->costoCotizacion;
-	        $_SESSION['certificado']=$fetch->certificado;
-	        $_SESSION['nmx']=$fetch->nmx;
-	        $_SESSION['descripcion']=$fetch->descripcion;
-	        
+	        $_SESSION['noTotalEmpleados']=$fetch->noTotalEmpleados;
+	                   
 	    }
         
-        $_SESSION['costoCotizacion']=$costoCotizacion;
-        //print_r( $_SESSION['nmx'] );
+        $sqlDatosNormas="SELECT N.claveISO,N.descripcion, S.alcance FROM norma N, solicitud S, solicitudvsservicios SS WHERE 1=1 AND SS.norma_idNorma = N.idNorma AND SS.solicitud_idSolicitud = S.idSolicitud AND S.cliente_idCliente ='$idCliente'";
+        
+        $temp=ejecutarConsulta($sqlDatosNormas);
+        
+        $contador=0;
+        
+        
+        while ($obj = mysqli_fetch_object($temp)){
+            
+            if(count($temp)==$contador+1){
+                
+                $normas=$obj->claveISO." ".$normas;
+                $descripcionNormas = $obj->descripcion." ".$descripcionNormas;  
+        
+            }else{
+                $normas=$obj->claveISO.", ".$normas;
+                $descripcionNormas = $obj->descripcion.", ".$descripcionNormas; 
+            }
+            
+            
+         
+	     
+            
+            $_SESSION['alcance']=$obj->alcance; 
+            $contador++;
+        
+         
+      }
+        
+  
+        $_SESSION['normas']=$normas;
+        $_SESSION['descripcionNormas']=$descripcionNormas;
+       
+       
+               
+        // direcciones
+        $sqlDatosDireccion="SELECT alias, calle, pais, estado, municipio,cp, colonia,numExt,numInt FROM sitio WHERE cliente_idCliente =  '$idCliente'";
+        
+        $temp=ejecutarConsulta($sqlDatosDireccion);
+        
+        
+       while ($obj = mysqli_fetch_object($temp)){
+           
+         $direccion = $direccion." ".$obj->alias." Calle".$obj->calle." ".$obj->numExt." ".$obj->numInt." ".$obj->colonia." ".$obj->municipio." ".$obj->estado." ".$obj->cp." ".$obj->pais." ,";
+	 
+      }
+              
+              
+        $_SESSION['direccion']=$direccion;
+        
+        $sqlViaticos = "SELECT viaticos FROM cotizacion WHERE cliente_idCliente = '$idCliente' ";
+         $temp=ejecutarConsulta($sqlViaticos);
+        
+        while ($obj = mysqli_fetch_object($temp)){
+             $_SESSION['viaticos']=$obj->viaticos;
+         }
+   
+        
+                
+        $_SESSION['costoFinal']=$costoFinal;
+        $_SESSION['tipoSegimiento']=$segimiento;
+        $_SESSION['costoSegimiento']=$costoSegimiento;
+        
+      
         
 		return ejecutarConsulta($sql);
         
 	}
     
     
-/*
-	//Implementamos un método para desactivar registros
-	public function desactivar($idCliente)
+    public function aprobar($idCliente) 
 	{
+        
+		$sql="UPDATE cliente SET condicion='2' WHERE idCliente='$idCliente'";
+        
+       
+        
+		return ejecutarConsulta($sql);
+        
+	}
+     public function baja($idCliente) 
+	{
+        
 		$sql="UPDATE cliente SET condicion='0' WHERE idCliente='$idCliente'";
+        
+       
+        
 		return ejecutarConsulta($sql);
+        
 	}
+    
 
-	//Implementamos un método para activar registros
-	public function activar($idcliente)
-	{
-		$sql="UPDATE cliente SET condicion='1' WHERE idCliente='$idCliente'";
-		return ejecutarConsulta($sql);
-	}
-    */
-
-	//Implementar un método para mostrar los datos de un registro a modificar
 	public function mostrar($idCliente)
 	{
-		$sql="SELECT c.idCliente,c.razonSocial,c.nombreContacto,c.puestoContacto,c.correo,c.telefono1,c.telefono2,c.tipoProducto,c.alcance,c.procesos,c.noPersonal,c.multiSitio,c.fechaProbable,c.requerimientoAdd,c.fechaImplementado,c.integral,c.nivelIntegrado,c.observaciones,c.condicion,d.idDireccion,d.calle,d.noInterior,d.noExterior,d.colonia,d.alcaldia,d.estado,d.pais,d.cp,c.costoCotizacion FROM cliente c,direccion d WHERE c.idCliente = d.cliente_idCliente AND c.idCliente='$idCliente'";
+		$sql="SELECT 
+	C.idCliente,
+	C.razonSocial,
+	Co.nombreContacto,
+	Co.puestoContacto,
+	Co.correoContacto,
+	C.telEmp,
+	C.telEmp2,
+	C.productoServicio,
+	C.noTotalEmpleados,
+	Co.fechaProbAud,
+	C.integral,
+	C.nivelIntegracion,
+	C.observaciones AS observacionesC,
+	S.idSitio,
+	S.calle,
+	S.numInt,
+	S.numExt,
+	S.colonia,
+	S.municipio,
+	S.estado,
+	S.pais,
+	S.cp,
+	Co.costoNormal, 
+	So.observaciones AS observacionesS,
+    So.alcance,
+    Co.viaticos
+FROM 
+	cliente C,
+ 	sitio S, 
+	cotizacion Co,
+	solicitud So 
+WHERE 
+	C.idCliente = Co.cliente_idCliente 
+AND 
+	C.idCliente = S.cliente_idCliente 
+AND 
+	C.idCliente= So.cliente_idCliente 
+AND 
+	S.condicion=2  And C.idCliente  ='$idCliente'";
 		return ejecutarConsultaSimpleFila($sql);
 	}
 
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="SELECT 
-                idCliente, 
-                razonSocial,
-                puestoContacto, 
-                nombreContacto, 
-                correo, 
-                telefono1, 
-                fechaProbable,
-                alcance,                
-                condicion
-              FROM 
-                cliente ";
+		$sql="SELECT C.idCliente, C.razonSocial, Co.puestoContacto, Co.nombreContacto, Co.correoContacto, C.telEmp, Co.fechaProbAud,Co.condicion FROM cliente C, cotizacion Co WHERE 1=1 AND C.idCliente=Co.cliente_idCliente AND C.condicion = 1 ORDER BY C.idCliente DESC";
 		return ejecutarConsulta($sql);		
 	}
     
     public function listarDetalle($idCliente)
 	{
-		$sql="SELECT calle,noInterior,noExterior,colonia,alcaldia,estado,pais,cp FROM direccion WHERE cliente_idCliente ='$idCliente'";
+		$sql="SELECT calle,numExt,numInt,colonia,municipio,estado,pais,cp FROM sitio WHERE condicion=2 AND cliente_idCliente ='$idCliente'";
 		return ejecutarConsulta($sql);
 	}
     public function listarNormasS($idCliente)
 	{
-		$sql="SELECT N.certificado, N.descripcion FROM normas N, normasSolicitadas NS WHERE N.idNormas=NS.idNorma AND NS.idCliente='$idCliente'";
+		$sql=" SELECT N.claveISO, N.descripcion FROM norma N, solicitudvsservicios SS WHERE N.idNorma=SS.norma_idNorma AND SS.solicitud_idSolicitud= (SELECT idSolicitud FROM solicitud WHERE cliente_idCliente ='$idCliente')";
 		return ejecutarConsulta($sql);
 	}
      public function listarSitios($idCliente)
 	{
-		$sql="SELECT sitio,estadoSitio,noPersonalAlias FROM sitios WHERE cliente_idCliente ='$idCliente'";
+		$sql="SELECT alias,estado,noEmpleados FROM sitio WHERE condicion!= 0 and condicion != 2 AND cliente_idCliente = '$idCliente'";
 		return ejecutarConsulta($sql);
 	} 
      public function listarCostos($idCliente)
 	{
-		$sql="SELECT C.noPersonal,(SELECT COUNT(*) FROM normasSolicitadas WHERE idCliente = '$idCliente') AS normas FROM cliente C WHERE idCliente = '$idCliente'";
-		return ejecutarConsulta($sql);
+		$sql=" SELECT C.noTotalEmpleados,(SELECT COUNT(*) FROM norma N, solicitudvsservicios SS WHERE N.idNorma=SS.norma_idNorma AND SS.solicitud_idSolicitud=(SELECT idSolicitud FROM solicitud  WHERE cliente_idCliente='$idCliente')) AS normas FROM cliente C WHERE idCliente = '$idCliente'  ";
+		return ejecutarConsulta($sql); 
 	}
-   
+    
+    public function listarCostosFinal($idCliente)
+	{
+		$sql=" SELECT costoFinal FROM cotizacion WHERE cliente_idCliente = '$idCliente'  ";
+		return ejecutarConsulta($sql); 
+	}
+    
+    
+    public function importar($razonSocial,$puestoContacto,$nombreContacto,$telefono1,$telefono2,$correo,$tipoProducto,$alcance,$procesos,$noPersonal,$multiSitios,$fechaProbable,$fechaImplementado,$requerimientoAdd,$integral,$nivelIntegrado,$observaciones,$idCliente,$costoCotizacion)
+	{
+		$sql="";
+		return ejecutarConsultaR($sql);
+	}
   
 
 }

@@ -11,49 +11,102 @@ use PhpOffice\PhpWord\TemplateProcessor;
 
 $templateWord = new TemplateProcessor('plantillaNormas.docx');
  
+
+ 
+$costoSegimiento = $_SESSION['costoSegimiento'];
+$tipoSegimiento = $_SESSION['tipoSegimiento'];
 $puestoContacto = $_SESSION['puestoContacto'];
 $nombreContacto = $_SESSION['nombreContacto'];
 $razonSocial = $_SESSION['razonSocial'];
-$costoCotizacion = $_SESSION['costoCotizacion'];
-$certificado = $_SESSION['certificado'];
-$nmx = $_SESSION['nmx'];
-$descripcion = $_SESSION['descripcion'];
-$certificadoNmx= $certificado."/".$nmx;
+$costoCotizacion = $_SESSION['costoFinal']; 
+//$certificado = $_SESSION['claveISO'];
+//$nmx = $_SESSION['claveMex'];
+//$descripcion = $_SESSION['descripcion'];
+$normasIso = $_SESSION['normas'];
+$descripcionNormas = $_SESSION['descripcionNormas'];
+$direccion = $_SESSION['direccion'];
+$alcance = $_SESSION['alcance'];
+$noTotalEmpleados = $_SESSION['noTotalEmpleados'];
+$viaticos = $_SESSION['viaticos'];
+
+$costoSegimientoP=0;
+$plan="";
+$numeroPlan=0;
+$aux=0;
+
+if($tipoSegimiento==0){
+    $plan="Semestral";
+    $numeroPlan=6;
+    $aux=0;
+}else{
+    $plan="Anual";
+    $numeroPlan=12;
+    $aux=1;
+}
+
+
+
 $iva = 0.16 * $costoCotizacion;
 $total= $costoCotizacion + $iva;
 $costoMitad = $total / 2;
-$segimientoSemestral = ($total * 0.95)/2;
-$segimientoAnual= $total * 0.9;
+
+
+
+if($aux == 0){ //0 = semestral 1= anual
+            
+$costoSegimientoP = ($costoCotizacion - ($costoCotizacion*0.05))/2;
+            
+}else{
+$costoSegimientoP = $costoCotizacion - ($costoCotizacion*0.10);
+}
+
 
 $costoCotizacionF= number_format($costoCotizacion);
 $ivaF= number_format($iva);
 $costoMitadF= number_format($costoMitad);
-$segimientoSemestralF= number_format($segimientoSemestral);
-$segimientoAnualF= number_format($segimientoAnual);
+$costoSegimientoF= number_format($costoSegimientoP);
+
 $totalF= number_format($total);
 $dia = date("d");
 $nombreMes = mes($temp=date("n"));
 $year = date("Y");
 
 
+
+
+
+
+
+
+
 // --- Asignamos valores a la plantilla
 $templateWord->setValue('puesto_Contacto',$puestoContacto);
 $templateWord->setValue('nombre_Contacto',$nombreContacto);
 $templateWord->setValue('razon_Social',$razonSocial);
-$templateWord->setValue('norma_Solicitada',$certificadoNmx);
-$templateWord->setValue('cp_empresa',$certificado);
-$templateWord->setValue('telefono_empresa',$nmx);
+$templateWord->setValue('norma_descripcion',$descripcionNormas);
+$templateWord->setValue('norma_Solicitada',$normasIso);
+$templateWord->setValue('direccion',$direccion);
+$templateWord->setValue('alcance',$alcance);
+$templateWord->setValue('viaticos',$viaticos);
+$templateWord->setValue('personas',$noTotalEmpleados);
+
+
+
 
 $templateWord->setValue('costo_Normal',$costoCotizacionF);
 $templateWord->setValue('costo_Iva',$ivaF);
 $templateWord->setValue('costo_Total',$totalF);
 $templateWord->setValue('costo_Mitad',$costoMitadF);
-$templateWord->setValue('costo_SeguimientoAnual',$segimientoAnualF);
-$templateWord->setValue('costo_SeguimientoSemestral',$segimientoSemestralF);
-$templateWord->setValue('detalles_Norma',$descripcion);
+$templateWord->setValue('costo_Seguimiento',$costoSegimientoF);
+
+
 $templateWord->setValue('dia',$dia);
 $templateWord->setValue('nombreMes',$nombreMes);
 $templateWord->setValue('year',$year);
+$templateWord->setValue('plan',$plan);
+$templateWord->setValue('numeroPlan',$numeroPlan);
+
+
 
 
 

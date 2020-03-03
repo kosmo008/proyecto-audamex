@@ -5,8 +5,8 @@ session_start();
         //Destruìmos la sesión
         session_destroy();
         //Redireccionamos al login
-        header("Location: ../index.php");
+        header("Location: http://audamex.com");
  
 
 
-?>
+?> 

@@ -4,18 +4,19 @@ $("#frmAcceso").on('submit',function(e)
     logina=$("#logina").val();
     clavea=$("#clavea").val();
 
-    $.post("../ajax/usuario_f.php?op=verificar", 
+    $.post("../ajax/login.php?op=verificar", 
         {"logina":logina,"clavea":clavea},
          function(data)
     {
-        if (data!="null")
+        if (data!=null)
         {
-            bootbox.alert("Bienvenido! ");
-             $(location).attr("href","cotizacion.php");            
+              alert("Bienvenido! "+data);
+             $(location).attr("href","form-step.php"); 
+					
         }
         else
         {
-            bootbox.alert("Usuario y/o Password incorrectos");
+            alert("Usuario y/o Password incorrectos");
         }
     });
 })

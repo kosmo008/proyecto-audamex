@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<?php ob_start(); ?>
+    <html lang="es">
+
+    <head>
+        <!-- Required meta tags-->
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <meta name="author" content="Daniel Cibrian Nieto">
+        <!-- Title Page-->
+        <title>Cuestionario de Certificación</title>
+        <!-- Icons font CSS-->
+        <link href="../public/vendor/mdi-font/css/material-design-iconic-font.min.css" rel="stylesheet" media="all">
+        <!-- Font special for pages-->
+        <link href="https://fonts.googleapis.com/css?family=Roboto:100,100i,300,300i,400,400i,500,500i,700,700i,900,900i" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css?family=Varela+Round&display=swap" rel="stylesheet">
+        <!-- Vendor CSS-->
+        <link href="../public/vendor/select2/select2.min.css" rel="stylesheet" media="all">
+        <link href="../public/vendor/datepicker/daterangepicker.css" rel="stylesheet" media="all">
+        <link href="../public/vendor/font-awesome-4.7/css/font-awesome.min.css" rel="stylesheet" media="all">
+        <link href="../public/vendor/font-awesome-4.7/css/all.css" rel="stylesheet" media="all">
+        <!-- Main CSS-->
+        <link href="../public/css/main.css" rel="stylesheet" media="all">
+        <link rel="stylesheet" href="../public/css/switchery.css" />
+        <!--datatable-->
+        <link rel="stylesheet" href="../public/datatables/buttons.dataTables.min.css">
+        <link rel="stylesheet" href="../public/datatables/jquery.dataTables.min.css">
+        <link rel="stylesheet" href="../public/datatables/responsive.dataTables.min.css">
+        <script src="../public/js/switchery.js"></script>
+        <!--Alertify-->
+        <link rel="stylesheet" href="../public/js/alertifyjs/css/alertify.min.css" />
+        <!-- include a theme -->
+        <link rel="stylesheet" href="../public/js/alertifyjs/css/themes/semantic.rtl.min.css" />
+        <script src="../public/js/alertifyjs/alertify.min.js"></script>
+        <!--Alertify-->
+        <script type="text/javascript">
+            function showContent() {
+                seccion = document.getElementById("content");
+                check = document.getElementById("chk");
+                if (check.checked) {
+                    seccion.style.display = 'none';
+                }
+                else {
+                    seccion.style.display = 'block';
+                }
+            }
+
+            function showCaja() {
+                seccion = document.getElementById("caja");
+                check = document.getElementById("chk2");
+                if (check.checked) {
+                    seccion.style.display = 'block';
+                }
+                else {
+                    seccion.style.display = 'none';
+                }
+            }
+        </script>
+    </head>
+
+    <body>
+        <div class="container" style=" background: rgba(154, 7, 55, 0.85); color: #fff; padding: 25px;">
+            <div class="row justify-content-md-center">
+                <div id="logo" class="col-2" style="text-align:right">
+                    <h1><a href="http://audamex.com"><img src="../public/images/logo.png"> </a></h1> </div>
+                <div class="col-10" style="text-align:center; padding:50px">
+                    <h1 style="font-family:'Varela Round', sans-serif;text-decoration: underline "> Auditores Asociados de Mexico S.C.</h1> </div>
+                <!-- ################################################################################################ -->
+            </div>
+        </div>
+        <div class="page-wrapper bg-wite p-t-100 p-b-100 font-robo">
+            <div class="wrapper wrapper--w680">
+                <h1>Cotización de Servicios de Certificación</h1>
+                <br>
+                <div class="card card-1">
+                    <div class="card-heading"></div>
+                    <div class="card-body">
+                        <h3 class="title">FAVOR DE LLENAR EL SIGUIENTE CUESTIONARIO</h3>
+                        <form name="formulario" id="formulario" method="POST">
+                            <div class="input-group">
+                                <input class="input--style-1" type="text" placeholder="Nombre de la Organización/ Razón Social (Completo) " id="razonSocial" name="razonSocial" required> </div>
+                            <div class="row row-space ">
+                                <div class="input-group col-5">
+                                    <input class="input--style-1" style="text-transform:uppercase" type="text" placeholder="Calle" id="calle" name="calle" required> </div>
+                                <div class="input-group col-5">
+                                    <input class="input--style-1" style="text-transform:uppercase" type="text" placeholder="RFC" id="RFC" name="RFC" required> </div>
+                            </div>
+                            <div class="row row-space ">
+                                <div class="input-group col-3">
+                                    <input class="input--style-1" type="text" placeholder="No. Exterior" id="noExterior" name="noExterior" required> </div>
+                                <div class="input-group col-4">
+                                    <input class="input--style-1" type="text" placeholder="No. Interior (Opcional)" id="noInterior" name="noInterior"> </div>
+                                <div class="input-group col-3">
+                                    <input class="input--style-1" style="text-transform:uppercase" type="text" placeholder="Colonia" id="colonia" name="colonia" required> </div>
+                            </div>
+                            <div class="row row-space">
+                                <div class="input-group col-3">
+                                    <input class="input--style-1" style="text-transform:uppercase" type="text" placeholder="Municipio/Alcandía" name="alcaldia" id="alcaldia" required> </div>
+                                <div class="input-group col-4">
+                                    <input class="input--style-1" style="text-transform:uppercase" type="number" placeholder="Codigo Postal" id="codigoPostal" name="codigoPostal" required> </div>
+                                <div class="input-group col-3">
+                                    <input class="input--style-1" style="text-transform:uppercase" type="text" placeholder="Estado" id="estado" name="estado" required> </div>
+                            </div>
+                            <div class="input-group ">
+                                <input class="input--style-1" style="text-transform:uppercase" type="text" placeholder="Pais" id="pais" name="pais" required> </div>
+                            <!---->
+                            <div>
+                                <label for="chk">
+                                    <p style=" color:#666">¿La dirección anterior será dónde se realizarán los trabajos de certificación?</p>
+                                </label>
+                                <br>
+                                <input type="checkbox" class="js-switch" name="chk" value="primera" id="chk" onchange="javascript:showContent()" /> </div>
+                            <div id="content" style="display: none;  border: 1px solid rgb(100, 189, 99); margin-top: 20px; padding: 0 5px">
+                                <br>
+                                <h3 class="title">Dirección donde se realizara la Certificación</h3>
+                                <div class="input-group">
+                                    <input class="input--style-1" type="text" placeholder="Calle" id="calle2" name="calle2"> </div>
+                                <div class="row row-space ">
+                                    <div class="input-group col-3">
+                                        <input class="input--style-1" type="text" placeholder="No. Exterior" id="noExterior2" name="noExterior2"> </div>
+                                    <div class="input-group col-4">
+                                        <input class="input--style-1" type="text" placeholder="No. Interior(Opcional)" id="noInterior2" name="noInterior2"> </div>
+                                    <div class="input-group col-3">
+                                        <input class="input--style-1" type="text" placeholder="Colonia" id="colonia2" name="colonia2"> </div>
+                                </div>
+                                <div class="row row-space ">
+                                    <div class="input-group col-3">
+                                        <input class="input--style-1" type="text" placeholder="Municiopo/Alcadia" id="alcaldia2" name="alcaldia2"> </div>
+                                    <div class="input-group col-3">
+                                        <input class="input--style-1" type="text" placeholder="Codigo Postal" id="codigoPostal2" name="codigoPostal2"> </div>
+                                    <div class="input-group col-3">
+                                        <input class="input--style-1" type="text" placeholder="Estado" id="estado2" name="estado2"> </div>
+                                </div>
+                                <div class="input-group">
+                                    <input class="input--style-1" type="text" placeholder="Pais" id="pais2" name="pais2"> </div>
+                            </div>
+                            <br>
+                            <div class="input-group">
+                                <input class="input--style-1" type="text" placeholder="Nombre de la persona a quien será dirigida la cotización" id="nombreContacto" name="nombreContacto" required> </div>
+                            <div class="input-group">
+                                <input class="input--style-1" type="text" placeholder="Puesto de la persona a quien será dirigida la cotización" id="puestoContacto" name="puestoContacto" required> </div>
+                            <div class="input-group">
+                                <input class="email--style-1" type="email" placeholder="Correo electronico para envio de la cotización" id="correoEmp" name="correoEmp" required> </div>
+                            <div class="row row-space ">
+                                <div class="input-group col-4">
+                                    <input class="input--style-1" type="text" placeholder="Telefono 1" id="telefono1" name="telefono1" required> </div>
+                                <div class="input-group col-4">
+                                    <input class="input--style-1" type="text" placeholder="Telefono 2(Opcional)" id="telefono2" name="telefono2"> </div>
+                            </div>
+                            <div class="input-group">
+                                <input class="input--style-1" type="text" placeholder="Tipo de Producto y/o Servicio que Proporciona:" id="tipoProducto" name="tipoProducto" required> </div>
+                            <div id="detalles">
+                                <br>
+                                <h3 class="title">Detalles de la Certificación</h3>
+                                <div class=" col">
+                                    <label for="alcance" style="color : #666">
+                                        <p>Alcance de la Certificación solicitada</p>
+                                    </label>
+                                    <textarea style="margin-top: 5px; max-width: 580px; min-width: 580px; max-height: 180px;min-height: 180px;" class="" type="text" placeholder="" id="alcance" name="alcance" required> </textarea>
+                                </div>
+                                <br>
+                                <div class="input-group col">
+                                    <input class="input--style-1" type="number" placeholder="Total de personas que laboran en la organización" id="noPersonas" name="noPersonas" required> </div>
+                                <label for="chk2">
+                                    <p style=" color:#555">Active si cuenta con más de un sitio de trabajo en donde desea que se lleve a cabo la certificación (Oficinas centrales,Sucursales, CEDIS, Almacenes, Plantas productivas, Etc.) </p>
+                                </label>
+                                <br>
+                                <input type="checkbox" class="js-switch col " name="chk2" value="1" id="chk2" onchange="javascript:showCaja()" />
+                                <br>
+                                <div id="caja" style="display: none; margin-top: 15px">
+                                    <table width="100%" border="0" cellpadding="20" cellspacing="0" class="table table-condensed" id="dynamic">
+                                        <tr>
+                                            <td class="celda">
+                                                <input class="imput--style-1" type="text" placeholder="Nombre del sitio 2" id="alias" name="alias[]"> </td>
+                                            <td class="celda">
+                                                <input class="input--style-1" type="text" placeholder="Estado(Ubición)" id="estadoAlias" name="estadoAlias[]"> </td>
+                                            <td class="celda">
+                                                <input class="input--style-1" type="text" placeholder="No. Personal" id="noPersonalAlias" name="noPersonalAlias[]"> </td>
+                                            <td>
+                                                <div class="p-t-20">
+                                                    <button type="button" class="btn btn--radius btn--green" id="add" name="add"><i class="fas fa-plus"></i></button>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                                <br>
+                                <div class="row row-space ">
+                                    <div class="col">
+                                        <label for="fecha">
+                                            <p style=" color:#666">Fecha probable para realizar los trabajos de certificación </p>
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="date" class="date--style-1 " id="fechaProbable" name="fechaProbable" placeholder="" required> </div>
+                                    </div>
+                                </div>
+                                <!-- <div class="row row-space ">
+                                    <div class="col">
+                                        <label for="fecha">
+                                            <p style=" color:#666">Indicar de ser el caso, desde qué fecha tiene implementado el sistema de gestión con el que cuenta actualmente</p>
+                                        </label>
+                                        <div class="input-group">
+                                            <input type="date" class="date--style-1 " id="fechaImplementado" name="fechaImplementado" placeholder=""> </div>
+                                    </div>
+                                </div>-->
+                                <div class="">
+                                    <label for="requerimientoAdd" style="color: #666">Indicar si es requerido equipo de protección, capacitación o algún requerimiento especial para realizar la auditoria </label>
+                                    <textarea style="margin-top: 5px; max-width: 580px; min-width: 580px; max-height: 180px;min-height: 180px;" class="" type="text" placeholder="" id="requerimientoAdd" name="requerimientoAdd"> </textarea>
+                                </div>
+                                <br>
+                                <label for="grupo">
+                                    <p style=" color:#666">Favor de indicar las normas involucradas</p>
+                                </label>
+                                <br>
+                                <div>
+                                    <ul id="normas" style="list-style: none"> </ul>
+                                </div>
+                                <br>
+                                <div class=" mb-3">
+                                    <label for="nivelIntegracion"> Si su sistema es integrado, favor de indicar el porcentaje de integración</label>
+                                    <br>
+                                    <select class="custom-select col" name="nivelIntegracion" id="nivelIntegracion">
+                                        <option selected value="No Aplica">No Aplica</option>
+                                        <option value="0%-25%">0%-25%</option>
+                                        <option value="25%-50%">25%-50%</option>
+                                        <option value="50%-75%">50%-75%</option>
+                                        <option value="75%-100%">75%-100%</option>
+                                    </select>
+                                </div>
+                                <br>
+                                <div class="">
+                                    <label style="color:#666" for="observaciones">Observaciones (Situaci&oacute;n especial a consideradar tales como seguridad,acceso,equipo/ropa) </label>
+                                    <br>
+                                    <textarea style="margin-top: 5px; max-width: 580px; min-width: 580px; max-height: 180px;min-height: 180px;" class="" type="text" placeholder="" id="observaciones" name="observaciones"> </textarea>
+                                </div>
+                            </div>
+                            <br>
+                            <div class=" mb-3">
+                                <label for="viaticos">¿Desea que su cotización incluya el cálculo proporcional correspondiente a viáticos?</label>
+                                <br>
+                                <select class="custom-select col" name="viaticos" id="viaticos">
+                                    <option value="Si">Si</option>
+                                    <option value="No">No</option>
+                                </select>
+                            </div>
+                            <br>
+                            <div class="g-recaptcha" data-sitekey="6LeYIaEUAAAAAJeF96b4fD4vQz09KMh7uc0kfV0v" required></div>
+                            <!-- end section-->
+                            <div class="p-t-20">
+                                <button class="btn btn--radius btn--green" type="submit" id="btnRegistrar" style="color:#fff">Registrar</button>
+                                <button class="btn btn--radius btn--red" type="reset" id="btnLimpiar" style="color:#fff">Limpiar</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container" style="height: 50px; color:#C1C2C4;background-color:#2A2D34; text-align: center; padding-top: 20px"> Auditores Asociados de Mexico S.C. Copyright © 2019 desarrollado por <a href="www.audamex.com"> AUDAMEX </a> </div>
+        <!-- Jquery JS-->
+        <script src="../public/vendor/jquery/jquery.min.js"></script>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+        <!-- Vendor JS -->
+        <script src="../public/vendor/select2/select2.min.js"></script>
+        <script src="../public/vendor/datepicker/moment.min.js"></script>
+        <script src="../public/vendor/datepicker/daterangepicker.js"></script>
+        <!-- Main JS-->
+        <script src="../public/js/global.js"></script>
+        <script src="../public/js/switchery.js"></script>
+   
+       
+        <script src='https://www.google.com/recaptcha/api.js?hl=es'></script>
+        <!-- <script src="../public/datatables/vfs_fonts.js"></script> -->
+        <script>
+            var elems = Array.prototype.slice.call(document.querySelectorAll('.js-switch'));
+            elems.forEach(function (html) {
+                var switchery = new Switchery(html);
+            });
+            showContent();
+        </script>
+        <script>
+            $(document).ready(function () {
+                var i = 1;
+                var j = 3;
+                $('#add').click(function () {
+                    i++;
+                    $('#dynamic').append('  <tr id="row' + i + '"><td class="celda"><input class="imput--style-1" type="text" placeholder="Nombre del sitio ' + j + '" id="alias" name="alias[]"></td><td class="celda"><input class="input--style-1" type="text" placeholder="Estado" id="estadoAlias" name="estadoAlias[]"></td><td class="celda"><input class="input--style-1" type="text" placeholder="No. Personal" id="noPersonalAlias" name="noPersonalAlias[]"></td><td><div class="p-t-20"><button class="btn btn--radius btn--red btn-remove"  id="' + i + '" name="remove"><i class="fas fa-times"></i></button></div></td></tr>');
+                    j++;
+                });
+                $(document).on('click', '.btn-remove', function () {
+                    var button_id = $(this).attr("id");
+                    $("#row" + button_id + "").remove();
+                    j--;
+                });
+            });
+        </script>
+        <!-- <script src="../public/js/bootstrap-select.min.js"></script>  -->
+        <script type="text/javascript" src="scripts/cuestionarioCertificacion.js"></script>
+        <!--Alertify-->
+        <script type="text/javascript">
+            //override defaults
+            alertify.defaults.theme.ok = "btn btn-primary";
+            alertify.defaults.theme.cancel = "btn btn-danger";
+            alertify.defaults.theme.input = "form-control";
+            alertify.defaults.transition = "slide";
+        </script>
+        <!--Alertify-->
+    </body>
+    <?php
+ob_end_flush(); 
+ ?>
+
+    </html>
+    <!-- end document-->

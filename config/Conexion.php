@@ -12,8 +12,10 @@ if (mysqli_connect_errno())
 	exit();
 }
 
+
 if (!function_exists('ejecutarConsulta'))
 {
+    
 	function ejecutarConsulta($sql)
 	{
 		global $conexion;

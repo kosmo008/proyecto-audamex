@@ -14,7 +14,7 @@ Class Norma
 	//Implementar un método para listar los registros
 	public function listar()
 	{
-		$sql="SELECT * FROM normas WHERE condicion !=0";
+		$sql="SELECT * FROM norma WHERE condicion !=0";
        
 		return ejecutarConsulta($sql);		
 	}
